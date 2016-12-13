@@ -76,38 +76,45 @@ class Map {
 		this.initial = initial;
 	}
 	
-	apply(x,c) {
+	apply(x) {
 		return this.arrow(x,this.initial);
+	}
+	
+	iterate(value, limit, bound) {
+		var level = 0;
+	    var current = value;
+		for(var i=0; i< limit; i++){
+	      current = this.apply(current);    
+	      if(current.magnit()>bound) break;
+	      level++;
+	    }
+	    return level;
 	}
 	
 }
 
 
 var mandelbrot = function(x,c) { return x.squared().sum(c); };
-
 var one = new CPoint(1,0);
-var imaginary = new CPoint(0,1);
-var opi = one.sum(imaginary);
-console.log("one: " + one);
-console.log("i: " + imaginary);
-console.log("test mandelbrot " + mandelbrot(opi, one));
-
 var mandelbrotMap = new Map(mandelbrot, one);
 
-console.log("map test: " + mandelbrotMap.apply(opi));
-
 /**
-public int iterate(int number, int bound){    
-	    if(cValue.magnit() > bound) return -1;
-	    int level = 0;
-	    for(int i=0; i< number; i++){
-	      this.iterate();    
-	      if(lastValue.magnit()>bound) break;
-	      level++;
-	    }
-	    return level;
-		
-		**/
+* utilities
+*/
+
+function randomRange(greaterThan, lessThan){
+	var shifted = randomInt(lessThan - greaterThan);
+	return lessThan - shifted; 
+};
+
+function randomInt(lessThan){
+	var selection = Math.floor(Math.random()*(lessThan));
+	return selection;
+};
+
+function randomCP(range) {
+		return new CPoint(randomRange(-1*range,range), randomRange(-1*range,range));
+};
 
 
 
