@@ -49,6 +49,10 @@ class CPoint {
 	root(){
 		return new CPoint(Math.sqrt(this.xvalue), Math.sqrt(this.yvalue));
 	}
+	
+	magnit() {
+		return Math.sqrt(this.xvalue*this.xvalue + (this.yvalue*this.yvalue));
+	}
 	 
 	signedRoot(){
 		var xsign = 1;
@@ -92,7 +96,15 @@ class Map {
 	}
 	
 }
-
+/*
+ * TODO: come up with a better method.
+ */ 
+function colorChooser(level) {
+	var colors = ['#ffffff','#d6d6c2','#b8b894','#999966','#6b6b47','#3d3d29','#0f0f0a'];
+	//var colors = ['white','light-grey','grey','black'];
+	var clevel = level % colors.length;
+	return colors[clevel];
+}
 
 var mandelbrot = function(x,c) { return x.squared().sum(c); };
 var one = new CPoint(1,0);

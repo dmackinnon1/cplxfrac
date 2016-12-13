@@ -11,9 +11,10 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 for (var i = 0; i < 1000; i ++) {
 	var cpoint = randomCP(100);
-	//var value = mandelbrotMap.iterate(cpoint,10,50);
+	var value = mandelbrotMap.iterate(cpoint,10,10);
 	
-	ctx.fillStyle = "black";
+	//ctx.fillStyle = colorChooser(value);
+	ctx.fillStyle = colorChooser(i);	
 	ctx.fillRect(100 + cpoint.xvalue, 100 + cpoint.yvalue, 1, 1);	
 }
 </script>
