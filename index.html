@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<script src="js/cplxfrac.js"> </script>
+<body>
+
+<canvas id="canvas" width="200" height="200" align="center" style="border:1px solid #000000;">
+</canvas>
+
+<script>
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+for (var i = 0; i < 20; i ++) {
+
+	for (var j = 0; j < 20; j ++) {
+		ctx.fillStyle = "green";
+		ctx.fillRect(5 + 10*i, 5 + 10*j, 1, 1);
+	}
+}
+</script>
+</body>
+</html>
