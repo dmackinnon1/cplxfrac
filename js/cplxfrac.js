@@ -74,41 +74,65 @@ class CPoint {
 	}
 };
 
-class Map {
-	constructor(arrow, initial) {
+class Map {	
+	constructor(arrow, iterator, initial, bound) {
 		this.arrow = arrow;
+		this.iterator = iterator;
 		this.initial = initial;
+		this.bound = bound;
 	}
 	
-	apply(x) {
-		return this.arrow(x,this.initial);
-	}
-	
-	iterate(value, limit, bound) {
-		var level = 0;
-	    var current = value;
-		for(var i=0; i< limit; i++){
-	      current = this.apply(current);    
-	      if(current.magnit()>bound) break;
-	      level++;
-	    }
-	    return level;
-	}
-	
-}
+	evaluate(x, limit) {		
+		return this.iterator(this.arrow, x, limit, this.initial, this.bound);
+	}	
+};
 /*
  * TODO: come up with a better method.
  */ 
 function colorChooser(level) {
-	var colors = ['#ffffff','#d6d6c2','#b8b894','#999966','#6b6b47','#3d3d29','#0f0f0a'];
-	//var colors = ['white','light-grey','grey','black'];
-	var clevel = level % colors.length;
+	var colors = ['#ffffff','#f2f2f2','#e6e6e6','#d9d9d9','#cccccc','#bfbfbf','#b3b3b3','#a6a6a6','#999999',
+	'#8c8c8c','#808080','#737373','#666666','#595959','#4d4d4d','#404040','#333333','#262626','#1a1a1a','#0d0d0d','#000000'];
+	var clevel = Math.floor(colors.length * level);
 	return colors[clevel];
 }
 
 var mandelbrot = function(x,c) { return x.squared().sum(c); };
+
+/*
+* Mandelbrot set iterator uses a variable c
+* arrow is a function z_n = z_{n-1}^2 + c is the prototypical arrow
+* value is the value that is put into c
+* initial is the initial value for z
+* bound is the magnitude to quit at, usually 2
+*/
+var mandelbrotIterator = function(arrow, value, limit, bound, initial) {
+	var level = 0;
+	var z = initial;
+	var c = value;
+	for(var i=0; i< limit; i++){
+		z = arrow(z, c);    
+	    if(z.magnit()>bound) break;
+	      level++;
+	    }
+	return level/limit;
+};
+
+var juliaIterator = function(value, limit, bound, initial) {
+	var level = 0;
+	var z = value;
+	var c = initial;
+	for(var i=0; i< limit; i++){
+		z = arrow(z, c);    
+	    if(z.magnit()>bound) break;
+	      level++;
+	    }
+	return level/limit;
+};
+	
+
+var zero = new CPoint(0,0);
 var one = new CPoint(1,0);
-var mandelbrotMap = new Map(mandelbrot, one);
+var mandelbrotMap = new Map(mandelbrot, mandelbrotIterator,2, zero);
 
 /**
 * utilities
@@ -119,9 +143,24 @@ function randomRange(greaterThan, lessThan){
 	return lessThan - shifted; 
 };
 
+
 function randomInt(lessThan){
 	var selection = Math.floor(Math.random()*(lessThan));
 	return selection;
+};
+
+function randomCPNoscale(){
+	var isneg = randomInt(2);
+	var sign1 = 1; 
+	var sign2 = 1;
+	if (isneg === 0 ) {
+		sign1 = -1;
+	}
+	isneg = randomInt(2);
+	if (isneg === 0) {
+		sign2 = -1;
+	}
+	return new CPoint(sign1 * 2*Math.random(), sign2 * 2*Math.random());
 };
 
 function randomCP(range) {
