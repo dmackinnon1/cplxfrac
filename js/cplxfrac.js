@@ -1,4 +1,8 @@
 
+// clplxfrac is the object to interact with
+
+var cplxfrac = {};
+
  /*
  *CPoint represents a point in the complex plane.
  */
@@ -96,6 +100,7 @@ function colorChooser(level) {
 	return colors[clevel];
 }
 
+
 var mandelbrot = function(x,c) { return x.squared().sum(c); };
 
 /*
@@ -117,7 +122,7 @@ var mandelbrotIterator = function(arrow, value, limit, bound, initial) {
 	return level/limit;
 };
 
-var juliaIterator = function(value, limit, bound, initial) {
+var juliaIterator = function(arrow, value, limit, bound, initial) {
 	var level = 0;
 	var z = value;
 	var c = initial;
@@ -132,7 +137,15 @@ var juliaIterator = function(value, limit, bound, initial) {
 
 var zero = new CPoint(0,0);
 var one = new CPoint(1,0);
-var mandelbrotMap = new Map(mandelbrot, mandelbrotIterator,2, zero);
+var julia1 = new CPoint(-0.67,-0.8);
+var julia2 = new CPoint(-0.17,-0.99);
+var julia3 = new CPoint(-0.11,-0.89);
+var julia4 = new CPoint(-0.21,-0.79);
+var julia5 = new CPoint(-0.299,-0.66);
+
+cplxfrac.mandelbrotMap = new Map(mandelbrot, mandelbrotIterator,2, zero);
+cplxfrac.juliaMap1 = new Map(mandelbrot, juliaIterator, 2, julia2);
+cplxfrac.juliaMap2 = new Map(mandelbrot, juliaIterator, 2, julia5);
 
 /**
 * utilities

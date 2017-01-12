@@ -7,7 +7,55 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+
+<style>
+.buttonDiv {
+	background-color:  #ccccff;
+	display: inline-block;
+	padding: 2px;
+	border: 2px;
+}
+</style>
+
 <script src="js/cplxfrac.js"> </script>
+
+<script>
+
+var selectedMap = cplxfrac.mandelbrotMap;
+
+function drawPoints() {
+	var canvas = document.getElementById("canvas");
+	var ctx = canvas.getContext("2d");
+	for (var i = 0; i < 10000; i ++) {
+		var cpoint = randomCPNoscale();
+		//var value = mandelbrotMap.evaluate(cpoint,20);// <- make iteration levels a slider, boundary part of function def
+		var value = selectedMap.evaluate(cpoint, 100);
+		//console.log("cpoint: " + cpoint + ": " + value);
+		ctx.fillStyle = colorChooser(value);
+		//ctx.fillStyle = colorChooser(i);	
+		ctx.fillRect(300 + 200*cpoint.xvalue, 200 + 200*cpoint.yvalue, 0.8, 0.8);	
+	}
+};
+$(document).ready(function() {
+
+	var timedDraw = setInterval(drawPoints, 5);
+});
+
+$(document).ready(function(){
+	$("form input:radio").on('click',function(e){
+		var option = $('input[name=options]:checked').val();
+		console.log("radio clicked: " + option);
+		if (option === "mandelbrot") {
+			selectedMap = cplxfrac.mandelbrotMap;
+		} else if (option === "julia1") {
+			selectedMap = cplxfrac.juliaMap1;
+		} else if (option === "julia2") {
+			selectedMap = cplxfrac.juliaMap2;
+		}
+	});
+});
+</script>
+
 <body>
 
 <div class="container-fluid">
@@ -21,26 +69,27 @@
 
 <canvas id="canvas" width="600" height="400" align="center" style="border:1px solid #000000;">
 </canvas>
+
+<hr>
+<div class="buttonDiv">
+<form>
+  <label class="radio-inline">
+  <input type="radio" name="options" value="mandelbrot" checked> mandelbrot <br>
+  </label>
+  <lable class="radio-inline">
+  <input type="radio" class="radio-inline" name="options" value="julia1"> julia 1 <br>
+  </lable>
+  <label class="radio-inline">
+  <input type="radio" class="radio-inline" name="options" value="julia2"> julia 2<br>
+  </label>
+</form>
+</div>
+
 </div>
 <div class='col-sm-1'>
 </div>
 </div>
 </div>
 
-<script>
-function drawPoints() {
-	var canvas = document.getElementById("canvas");
-	var ctx = canvas.getContext("2d");
-	for (var i = 0; i < 10000; i ++) {
-		var cpoint = randomCPNoscale();
-		var value = mandelbrotMap.evaluate(cpoint,100);// <- make iteration levels a slider, boundary part of function def
-		//console.log("cpoint: " + cpoint + ": " + value);
-		ctx.fillStyle = colorChooser(value);
-		//ctx.fillStyle = colorChooser(i);	
-		ctx.fillRect(500 + 300*cpoint.xvalue, 200 + 300*cpoint.yvalue, 0.5, 0.5);	
-	}
-};
-var timedDraw = setInterval(drawPoints, 5);
-</script>
 </body>
 </html>
