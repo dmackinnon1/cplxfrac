@@ -137,16 +137,17 @@ var juliaIterator = function(arrow, value, limit, bound, initial) {
 
 var zero = new CPoint(0,0);
 var one = new CPoint(1,0);
-var julia1 = new CPoint(-0.67,-0.8);
-var julia2 = new CPoint(-0.17,-0.99);
+var julia1 = new CPoint(0.122,0.735);
+var julia2 = new CPoint(-0.99,-0.34);
 var julia3 = new CPoint(-0.11,-0.89);
 var julia4 = new CPoint(-0.21,-0.79);
-var julia5 = new CPoint(-0.299,-0.66);
+var julia5 = new CPoint(-0.299,-0.777);
 
 cplxfrac.mandelbrotMap = new Map(mandelbrot, mandelbrotIterator,2, zero);
 cplxfrac.juliaMap1 = new Map(mandelbrot, juliaIterator, 2, julia2);
 cplxfrac.juliaMap2 = new Map(mandelbrot, juliaIterator, 2, julia5);
-
+cplxfrac.juliaMap3 = new Map(mandelbrot, juliaIterator, 2, julia4);
+cplxfrac.juliaMap4 = new Map(mandelbrot, juliaIterator, 2, julia1);
 /**
 * utilities
 */
